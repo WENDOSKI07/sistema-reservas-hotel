@@ -48,6 +48,15 @@ class Factura:
         self.__impuesto = impuesto
         self.__total = subtotal + impuesto
 
+    def mostrar_detalle(self) -> str:
+        """Devuelve el resumen de la factura sin imprimirlo."""
+        return (
+            f"Factura {self.numero}\n"
+            f"Subtotal: {self.subtotal:.2f}\n"
+            f"Impuesto: {self.impuesto:.2f}\n"
+            f"Total: {self.total:.2f}"
+        )
+
     @staticmethod
     def _decimal_no_negativo(valor, campo: str) -> Decimal:
         try:
