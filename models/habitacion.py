@@ -47,3 +47,26 @@ class Habitacion(ABC):
             
         else:
             raise ValueError("La capacidad debe ser un número entero de al menos 1.")
+        
+    def get_estado(self):
+        return self.__estado
+    
+    # Métodos de comportamiento común
+    def ocupar(self):
+        self.__estado = 'Ocupada'   
+        
+    def liberar(self):
+        self.__estado = 'Disponible'
+        
+    def mostrar_informacion(self):
+        return f"Habitación {self.get_numero()} (Piso {self.get_piso()}) - precioBase: {self.get_precioBase()} - Capacidad: {self.get_capacidad()} - Estado: {self.get_estado()}"
+
+    @abstractmethod
+    def calcular_tarifa(self, noches):
+        # Este método debe ser redefinido por las clases hijas.
+        pass
+
+    @abstractmethod
+    def describir_servicios(self):
+        # Este método debe ser redefinido por las clases hijas.
+        pass
