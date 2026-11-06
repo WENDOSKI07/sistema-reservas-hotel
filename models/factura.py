@@ -4,7 +4,11 @@ from decimal import Decimal, InvalidOperation, ROUND_HALF_UP
 
 
 class Factura:
-    def __init__(self, numero: str, reserva, *, tasa_impuesto=0):
+    """Calcula el importe a cobrar por una reserva."""
+
+    TASA_IMPUESTO = Decimal("0.19")
+
+    def __init__(self, numero: str, reserva, *, tasa_impuesto=TASA_IMPUESTO):
         if not isinstance(numero, str) or not numero.strip():
             raise ValueError("El número de factura debe ser un texto no vacío.")
         if not callable(getattr(reserva, "calcular_total", None)):
