@@ -1,50 +1,53 @@
 from models.habitacion import Habitacion
 
 class HabitacionSuite(Habitacion):
+    RECARGO_JACUZZI = 50000
+    RECARGO_VISTA = 30000
 
-    def __init__(self, numero, piso, precioBase, capacidad, tieneJacuzzi, vista):
-        super().__init__(numero, piso, precioBase, capacidad)
-        self.set_tieneJacuzzi(tieneJacuzzi) # Ajustado para que coincida con el nombre del método de abajo
-        self.set_vista(vista)
-        # Valores de recargo internos del sistema
-        self.__recargoJacuzzi = 50000
-        self.__recargoVista = 30000
+    def __init__(self, numero, piso, precio_base, capacidad, tiene_jacuzzi, vista):
+        super().__init__(numero, piso, precio_base, capacidad)
+        self.tiene_jacuzzi = tiene_jacuzzi
+        self.vista = vista
+        
+    @property    
+    def tiene_jacuzzi(self):
+        return self.__tiene_jacuzzi
 
-    def get_tieneJacuzzi(self):
-        return self.__tieneJacuzzi
-
-    def set_tieneJacuzzi(self, tieneJacuzzi):
-        if isinstance(tieneJacuzzi, bool):
-            self.__tieneJacuzzi = tieneJacuzzi
+    @tiene_jacuzzi.setter
+    def tiene_jacuzzi(self, valor):
+        if isinstance(valor, bool):
+            self.__tiene_jacuzzi = valor
         else:
             raise ValueError("El valor de jacuzzi debe ser Verdadero (True) o Falso (False).")
 
-    def get_vista(self):
+    @property
+    def vista(self):
         return self.__vista
 
-    def set_vista(self, vista):
-        if (vista is not None and isinstance(vista, str) and len(vista.strip()) > 0):
-            self.__vista = vista
+    @vista.setter
+    def vista(self, valor):
+        if (valor is not None and isinstance(valor, str) and len(valor.strip()) > 0):
+            self.__vista = valor
         else:
             raise ValueError("La descripción de la vista no puede estar vacía.")
 
     # Se sobrescriben los métodos
-    def calcularTarifa(self, noches):
-        tarifaDiaria = self.get_precioBase()
-        if self.get_tieneJacuzzi():
-            tarifaDiaria += self.__recargoJacuzzi
-        if self.get_vista():
-            tarifaDiaria += self.__recargoVista
-        return tarifaDiaria * noches
+    def calcular_tarifa(self, noches):
+        tarifa_diaria = self.precio_base
+        if self.tiene_jacuzzi:
+            tarifa_diaria += HabitacionSuite.RECARGO_JACUZZI
+        if self.vista:
+            tarifa_diaria += HabitacionSuite.RECARGO_VISTA
+        return tarifa_diaria * noches
 
     def describir_servicios(self):
         servicios = "Servicios básicos"
-        if self.get_tieneJacuzzi():
+        if self.tiene_jacuzzi:
             servicios += ", jacuzzi"
-        if self.get_vista():
-            servicios += f", excelente vista a {self.get_vista()}"
+        if self.vista:
+            servicios += f", excelente vista a {self.vista}"
         return servicios + "."
 
     def mostrar_informacion(self):
-        jacuzzi_texto = "Sí" if self.get_tieneJacuzzi() else "No"
-        return f"{super().mostrar_informacion()} - Jacuzzi: {jacuzzi_texto} - Vista: {self.get_vista()}"
+        jacuzzi_texto = "Sí" if self.tiene_jacuzzi else "No"
+        return f"{super().mostrar_informacion()} - Jacuzzi: {jacuzzi_texto} - Vista: {self.vista}"
