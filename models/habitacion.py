@@ -1,54 +1,63 @@
 from abc import ABC, abstractmethod
 
 class Habitacion(ABC): 
-    def __init__(self, numero, piso, precioBase, capacidad):
-        self.set_numero(numero)
-        self.set_piso(piso)
-        self.set_precioBase(precioBase)
-        self.set_capacidad(capacidad)
+    def __init__(self, numero, piso, precio_base, capacidad):
+        self.numero = numero
+        self.piso = piso
+        self.precio_base = precio_base
+        self.capacidad = capacidad
         self.__estado = 'Disponible'
-    
-    def get_numero(self):
+        
+    @property
+    def numero(self):
         return self.__numero
     
-    def set_numero(self, numero):
-        if(numero is not None and isinstance (numero, str) and len (numero.strip()) > 0):
-            self.__numero = numero
+    @numero.setter
+    def numero(self, valor):
+        if(valor is not None and isinstance (valor, str) and len (valor.strip()) > 0):
+            self.__numero = valor
             
         else:
             raise ValueError("Este campo no puede estar vacío. Escribe el número de la habitación.")
-        
-    def get_piso(self):
+    
+    @property    
+    def piso(self):
         return self.__piso
     
-    def set_piso(self, piso):
-        if(piso is not None and isinstance (piso, str) and len (piso.strip()) > 0):
-            self.__piso = piso      
+    @piso.setter
+    def piso(self, valor):
+        if(valor is not None and isinstance (valor, str) and len (valor.strip()) > 0):
+            self.__piso = valor     
             
         else:
             raise ValueError("Este campo no puede estar vacío. Escribe el piso.")
-        
-    def get_precioBase(self):
-        return self.__precioBase
+     
+    @property   
+    def precio_base(self):
+        return self.__precio_base
     
-    def set_precioBase(self, precioBase):
-        if (precioBase is not None and isinstance(precioBase, (int, float)) and precioBase >0):
-            self.__precioBase = precioBase
+    @precio_base.setter
+    def precio_base(self, valor):
+        if (valor is not None and isinstance(valor, (int, float)) and valor >0):
+            self.__precioBase = valor
             
         else:
             raise ValueError("El precio base debe ser un número mayor que 0.")
-        
-    def get_capacidad(self):
+    
+    @property    
+    def capacidad(self):
         return self.__capacidad
     
-    def set_capacidad(self, capacidad):
-        if (capacidad is not None  and isinstance(capacidad, int) and capacidad >= 1):
-            self.__capacidad = capacidad
+    @capacidad.setter
+    def set_capacidad(self, valor):
+        if (valor is not None  and isinstance(valor, int) and valor >= 1):
+            self.__capacidad = valor
             
         else:
             raise ValueError("La capacidad debe ser un número entero de al menos 1.")
-        
-    def get_estado(self):
+    
+    @property    
+    def estado(self):
         return self.__estado
     
     # Métodos de comportamiento común
@@ -59,7 +68,7 @@ class Habitacion(ABC):
         self.__estado = 'Disponible'
         
     def mostrar_informacion(self):
-        return f"Habitación {self.get_numero()} (Piso {self.get_piso()}) - precioBase: {self.get_precioBase()} - Capacidad: {self.get_capacidad()} - Estado: {self.get_estado()}"
+        return f"Habitación {self.numero()} (Piso {self.piso()}) - Precio Base: {self.precio_base()} - Capacidad: {self.capacidad()} - Estado: {self.estado()}"
 
     @abstractmethod
     def calcular_tarifa(self, noches):
