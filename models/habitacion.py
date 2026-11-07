@@ -39,7 +39,7 @@ class Habitacion(ABC):
     @precio_base.setter
     def precio_base(self, valor):
         if (valor is not None and isinstance(valor, (int, float)) and valor >0):
-            self.__precioBase = valor
+            self.__precio_base = valor
             
         else:
             raise ValueError("El precio base debe ser un número mayor que 0.")
@@ -49,7 +49,7 @@ class Habitacion(ABC):
         return self.__capacidad
     
     @capacidad.setter
-    def set_capacidad(self, valor):
+    def capacidad(self, valor):
         if (valor is not None  and isinstance(valor, int) and valor >= 1):
             self.__capacidad = valor
             

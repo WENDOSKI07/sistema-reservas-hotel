@@ -18,7 +18,7 @@ class HabitacionSencilla(Habitacion):
             raise ValueError("El tipo de cama no puede estar vacío.")
 
     def calcular_tarifa(self, noches):
-        return self.precio_base() * noches
+        return self.precio_base * noches
 
     def describir_servicios(self):
         return f"Servicios básicos y cama tipo {self.tipo_cama}."
