@@ -18,8 +18,9 @@ class ReservaDePrueba:
 
 class TestFactura(unittest.TestCase):
     def test_aplica_impuesto_y_redondea_a_centavos(self):
-        factura = Factura("F001", ReservaDePrueba())
+        factura = Factura(codigo="F001", reserva=ReservaDePrueba())
 
+        self.assertEqual(factura.codigo, "F001")
         self.assertEqual(factura.subtotal, Decimal("250.50"))
         self.assertEqual(factura.impuesto, Decimal("47.60"))
         self.assertEqual(factura.total, Decimal("298.10"))

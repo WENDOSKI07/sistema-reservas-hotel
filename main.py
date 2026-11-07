@@ -13,10 +13,10 @@ def mostrar_habitaciones(habitaciones, noches: int) -> None:
         print()
 
 
-def mostrar_factura(numero: str, reserva, *, tasa_impuesto=Factura.TASA_IMPUESTO) -> None:
+def mostrar_factura(codigo: str, reserva, *, tasa_impuesto=Factura.TASA_IMPUESTO) -> None:
     """Genera una factura a partir de una reserva y muestra su detalle."""
-    factura = Factura(numero, reserva, tasa_impuesto=tasa_impuesto)
-    print(factura.mostrar_detalle())
+    factura = Factura(codigo, reserva, tasa_impuesto=tasa_impuesto)
+    factura.mostrar_factura()
 
 
 def main():
