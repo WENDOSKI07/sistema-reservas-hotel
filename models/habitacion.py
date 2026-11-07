@@ -68,7 +68,7 @@ class Habitacion(ABC):
         self.__estado = 'Disponible'
         
     def mostrar_informacion(self):
-        return f"Habitación {self.numero()} (Piso {self.piso()}) - Precio Base: {self.precio_base()} - Capacidad: {self.capacidad()} - Estado: {self.estado()}"
+        return f"Habitación {self.numero} (Piso {self.piso}) - Precio Base: {self.precio_base} - Capacidad: {self.capacidad} - Estado: {self.estado}"
 
     @abstractmethod
     def calcular_tarifa(self, noches):
