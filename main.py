@@ -1,6 +1,9 @@
 """Punto de entrada del sistema de reservas del hotel."""
 
 from models.factura import Factura
+from datetime import date
+from models.habitacion import Habitacion
+from models.estadia import Estadia
 from controllers.menu_controller import MenuController
 from models.habitacion_sencilla import HabitacionSencilla
 from models.habitacion_suite import HabitacionSuite
@@ -24,6 +27,29 @@ def mostrar_factura(codigo: str, reserva, *, tasa_impuesto=Factura.TASA_IMPUESTO
     factura.mostrar_factura()
 
 
+def comprobar_clase_abstracta():
+    """Intenta crear la clase base para mostrar la restricción de Python."""
+    try:
+        Habitacion("100", "1", 100000, 2)
+    except TypeError:
+        return (
+            "Python rechazó la creación de Habitacion porque es abstracta. "
+            "Se debe crear una habitación sencilla, suite o familiar."
+        )
+    raise RuntimeError("Habitacion debería impedir la creación de instancias")
+
+
+def validar_estadia(entrada, salida):
+    """Convierte el texto y delega la validación de las fechas al modelo."""
+    try:
+        fecha_entrada = date.fromisoformat(entrada)
+        fecha_salida = date.fromisoformat(salida)
+    except ValueError as error:
+        raise ValueError("Escribe fechas válidas con el formato AAAA-MM-DD") from error
+    estadia = Estadia(fecha_entrada, fecha_salida)
+    return f"La estadía tiene {estadia.calcular_noches()} noches"
+
+
 def main():
     # Estas habitaciones de ejemplo permiten probar la cotización desde el menú
     habitaciones = [
@@ -31,7 +57,10 @@ def main():
         HabitacionSuite("201", "2", 200000, 2, True, "la ciudad"),
         HabitacionFamiliar("301", "3", 150000, 4, 1),
     ]
-    menu = MenuController(MenuView(), habitaciones, mostrar_habitaciones)
+    menu = MenuController(
+        MenuView(), habitaciones, mostrar_habitaciones,
+        comprobar_clase_abstracta, validar_estadia,
+    )
     menu.iniciar()
 
 

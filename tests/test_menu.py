@@ -38,3 +38,19 @@ class TestMenu(unittest.TestCase):
         self.assertEqual(salida.count("Escribe un número entero"), 3)
         self.assertIn("200,000.00", salida)
         self.assertIn("Hasta pronto", salida)
+
+    def test_comprueba_clase_abstracta(self):
+        salida = self.ejecutar_programa("2\n1\n0\n0\n")
+        self.assertIn("porque es abstracta", salida)
+        self.assertIn("Hasta pronto", salida)
+
+    def test_fechas_invalidas_permiten_una_nueva_consulta(self):
+        salida = self.ejecutar_programa(
+            "2\n2\n2026-11-12\n2026-11-10\n"
+            "2\ntexto\n2026-11-12\n"
+            "2\n2026-11-10\n2026-11-12\n0\n0\n"
+        )
+        self.assertIn("debe ser posterior", salida)
+        self.assertIn("Escribe fechas válidas", salida)
+        self.assertIn("La estadía tiene 2 noches", salida)
+        self.assertIn("Hasta pronto", salida)
