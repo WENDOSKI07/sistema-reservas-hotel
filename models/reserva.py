@@ -1,5 +1,7 @@
 from models.habitacion import Habitacion
 from models.estadia import Estadia
+from models.cliente import Cliente
+from exceptions.hoteleras import FechasInvalidasError, CapacidadExcedidaError, HabitacionNoDisponibleError, HabitacionNoEncontradaError, ClienteNoEncontradoError
 
 
 class Reserva:
@@ -21,8 +23,8 @@ class Reserva:
 
     #Validar el cliente
     def set_cliente(self, cliente):
-        if not hasattr(cliente, 'nombre') or not hasattr(cliente, 'apellido'):
-            raise ValueError("El cliente debe tener nombre y apellido.")
+        if not isinstance(cliente, Cliente):
+            raise ValueError("El cliente debe ser una instancia de la clase Cliente.")
         self.cliente = cliente
 
     def get_cliente(self):
@@ -32,6 +34,8 @@ class Reserva:
     def set_habitacion(self, habitacion):
         if not isinstance(habitacion, Habitacion):
             raise ValueError("La habitación debe ser una instancia de la clase Habitacion.")
+        if habitacion.estado != "disponible":
+            raise HabitacionNoDisponibleError()
         self.habitacion = habitacion
 
     def get_habitacion(self):
@@ -43,7 +47,7 @@ class Reserva:
             raise ValueError("La cantidad de huéspedes debe ser un número entero positivo.")
         
         if cantidad_huespedes > self.habitacion.capacidad:
-            raise ValueError(f"La cantidad de huéspedes no puede superar la capacidad de la habitación ({self.habitacion.capacidad}).")
+            raise CapacidadExcedidaError()
         self.cantidad_huespedes = cantidad_huespedes
 
     def get_cantidad_huespedes (self):
@@ -70,8 +74,8 @@ class Reserva:
 
     def mostrar_informacion(self):
         info = f"Código de reserva: {self.codigo}\n"
-        info += f"Cliente: {self.cliente.nombre} {self.cliente.apellido}\n"
-        info += f"Habitación: {self.habitacion.numero} - Tipo: {self.habitacion.tipo}\n"
+        info += f"Cliente: {self.cliente.nombre}\n"
+        info += f"Habitación: {self.habitacion.numero} - Tipo: {self.habitacion.__class__.__name__}\n"
         info += f"Fecha de Entrada: {self.estadia.fecha_entrada}\n"
         info += f"Fecha de Salida: {self.estadia.fecha_salida}\n"
         info += f"Estadia: {self.estadia.calcular_noches()}\n"
