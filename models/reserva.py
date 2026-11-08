@@ -5,7 +5,7 @@ from estadia import Estadia
 class Reserva:
     def __init__(self, codigo, cliente, habitacion,fecha_entrada, fecha_salida, cantidad_huespedes:int):
         self.set_codigo(codigo)
-        self.set.cliente(cliente)
+        self.set_cliente(cliente)
         self.set_habitacion(habitacion)
         self.set_cantidad_huespedes(cantidad_huespedes)
         self.estado = "pendiente"  # Estado inicial de la reserva
