@@ -8,6 +8,22 @@ import unittest
 
 
 class TestMenu(unittest.TestCase):
+    def test_registra_cliente_y_lo_encuentra_despues_de_un_error(self):
+        salida = self.ejecutar_programa(
+            "3\n2\n999\n1\n123\nAna Torres\nana@example.com\n"
+            "2\n123\n0\n0\n"
+        )
+        self.assertIn("No se encontró un cliente", salida)
+        self.assertIn("Cliente registrado correctamente", salida)
+        self.assertEqual(salida.count("Nombre: Ana Torres"), 2)
+        self.assertIn("Hasta pronto", salida)
+
+    def test_error_de_habitacion_regresa_al_menu_y_permite_consultar(self):
+        salida = self.ejecutar_programa("4\n2\n999\n4\n2\n101\n0\n0\n")
+        self.assertIn("No se encontró una habitación", salida)
+        self.assertIn("Habitación 101", salida)
+        self.assertIn("Hasta pronto", salida)
+
     def ejecutar_programa(self, entradas):
         """Abre el programa con respuestas simuladas del usuario."""
         resultado = subprocess.run(

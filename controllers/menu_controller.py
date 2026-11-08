@@ -5,12 +5,14 @@ from exceptions.hoteleras import HotelError
 
 class MenuController:
     def __init__(self, vista, habitaciones, mostrar_habitaciones,
-                 comprobar_clase_abstracta, validar_estadia):
+                 comprobar_clase_abstracta, validar_estadia, clientes, consulta_habitaciones):
         self.vista = vista
         self.habitaciones = habitaciones
         self.mostrar_habitaciones = mostrar_habitaciones
         self.comprobar_clase_abstracta = comprobar_clase_abstracta
         self.validar_estadia = validar_estadia
+        self.clientes = clientes
+        self.consulta_habitaciones = consulta_habitaciones
 
     def iniciar(self):
         while True:
@@ -22,8 +24,17 @@ class MenuController:
                 self.cotizar_habitaciones()
             elif opcion == "2":
                 self.comprobaciones()
+            elif opcion in ("3", "4"):
+                try:
+                    if opcion == "3":
+                        self.clientes.iniciar()
+                    else:
+                        self.consulta_habitaciones.iniciar()
+                except (HotelError, ValueError) as error:
+                    # Las búsquedas pueden fallar y el menú principal sigue disponible
+                    self.vista.mostrar_mensaje(str(error))
             else:
-                self.vista.mostrar_mensaje("Opción inválida, selecciona 1, 2 o 0")
+                self.vista.mostrar_mensaje("Opción inválida, selecciona 1, 2, 3, 4 o 0")
 
     def comprobaciones(self):
         """Permite revisar casos de la actividad sin cerrar el programa."""

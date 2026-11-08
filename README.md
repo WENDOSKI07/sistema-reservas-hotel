@@ -32,6 +32,11 @@ otra consulta. Las fechas se ingresan en formato AAAA-MM-DD.
 
 Los datos se conservan en memoria durante la ejecución.
 
+El área Clientes permite registrar personas y buscarlas por documento. Consultar
+habitaciones permite listar, buscar por número y comparar tarifas. Los clientes
+registrados se conservan al volver al menú principal. Si una habitación no existe,
+el mensaje se muestra y se regresa al menú principal.
+
 ## Organización
 
 | Ubicación | Contenido |
@@ -71,11 +76,14 @@ flujo funcione.
 
 ## Integración pendiente
 
-En la rama Oscar están integradas las habitaciones, la factura y los aportes de
-Stefania. El controlador de clientes depende de los modelos Cliente y Hotel.
-Los aportes de Silvana y Lizeth requieren integración y comprobación conjunta.
+En la rama Oscar están integrados los aportes de Stefanny, Stefania y Silvana.
+Clientes y habitaciones ya se pueden utilizar desde el menú principal.
+Reserva, de Lizeth, requiere correcciones antes de su integración.
+Hotel carga esa clase al crear una reserva, por lo que sus registros y búsquedas
+pueden usarse mientras se completa esa integración. Una prueba de Hotel y las
+cinco pruebas de integración permanecen omitidas hasta disponer de Reserva.
 
-Queda conectar clientes, habitaciones, reservas y facturas al menú, completar la
+Queda conectar reservas y facturas al menú, completar la
 demostración de ocho objetos y de los errores del dominio, y añadir el UML y el
 Documento de Decisiones de Diseño a docs/.
 

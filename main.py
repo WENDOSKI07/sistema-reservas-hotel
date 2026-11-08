@@ -9,6 +9,11 @@ from models.habitacion_sencilla import HabitacionSencilla
 from models.habitacion_suite import HabitacionSuite
 from models.habitacion_familiar import HabitacionFamiliar
 from views.menu_view import MenuView
+from models.hotel import Hotel
+from controllers.cliente_controller import ClienteController
+from controllers.habitacion_controller import HabitacionController
+from views.cliente_view import ClienteView
+from views.habitacion_view import HabitacionView
 
 
 def mostrar_habitaciones(habitaciones, noches: int) -> None:
@@ -57,9 +62,15 @@ def main():
         HabitacionSuite("201", "2", 200000, 2, True, "la ciudad"),
         HabitacionFamiliar("301", "3", 150000, 4, 1),
     ]
+    hotel = Hotel("Hotel Manizales")
+    for habitacion in habitaciones:
+        hotel.registrar_habitacion(habitacion)
+
+    clientes = ClienteController(hotel, ClienteView())
+    consulta_habitaciones = HabitacionController(hotel, HabitacionView())
     menu = MenuController(
         MenuView(), habitaciones, mostrar_habitaciones,
-        comprobar_clase_abstracta, validar_estadia,
+        comprobar_clase_abstracta, validar_estadia, clientes, consulta_habitaciones,
     )
     menu.iniciar()
 

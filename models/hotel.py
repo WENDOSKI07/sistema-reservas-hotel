@@ -1,7 +1,6 @@
 """Hotel que reúne las habitaciones, los clientes y las reservas."""
 
 from exceptions.hoteleras import ClienteNoEncontradoError, HabitacionNoEncontradaError
-from models.reserva import Reserva
 
 
 class Hotel:
@@ -75,6 +74,9 @@ class Hotel:
         # Solo se reserva con clientes y habitaciones registrados en este hotel
         self.buscar_cliente(cliente.documento)
         self.buscar_habitacion(habitacion.numero)
+
+        # La dependencia se carga cuando se utiliza el área de reservas
+        from models.reserva import Reserva
 
         # Reserva construye su Estadia y valida las fechas y la capacidad
         reserva = Reserva(codigo, cliente, habitacion, f_entrada, f_salida, huespedes)

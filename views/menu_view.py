@@ -6,6 +6,8 @@ class MenuView:
         print("\nSistema de reservas del hotel")
         print("1. Cotizar habitaciones")
         print("2. Comprobaciones de la actividad")
+        print("3. Clientes")
+        print("4. Consultar habitaciones")
         print("0. Salir")
         return input("Selecciona una opción: ").strip()
 
