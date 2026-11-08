@@ -8,13 +8,13 @@ class Factura:
 
     TASA_IMPUESTO = Decimal("0.19")
 
-    def __init__(self, numero: str, reserva, *, tasa_impuesto=TASA_IMPUESTO):
-        if not isinstance(numero, str) or not numero.strip():
-            raise ValueError("El número de factura debe ser un texto no vacío.")
+    def __init__(self, codigo: str, reserva, *, tasa_impuesto=TASA_IMPUESTO):
+        if not isinstance(codigo, str) or not codigo.strip():
+            raise ValueError("El código de factura debe ser un texto no vacío.")
         if not callable(getattr(reserva, "calcular_total", None)):
             raise TypeError("La reserva debe proporcionar el método calcular_total().")
 
-        self.__numero = numero.strip()
+        self.__codigo = codigo.strip()
         self.__reserva = reserva
         self.__tasa_impuesto = self._decimal_no_negativo(tasa_impuesto, "La tasa de impuesto")
         if self.__tasa_impuesto > 1:
@@ -22,8 +22,8 @@ class Factura:
         self.calcular_totales()
 
     @property
-    def numero(self) -> str:
-        return self.__numero
+    def codigo(self) -> str:
+        return self.__codigo
 
     @property
     def reserva(self):
@@ -55,11 +55,15 @@ class Factura:
     def mostrar_detalle(self) -> str:
         """Devuelve el resumen de la factura sin imprimirlo."""
         return (
-            f"Factura {self.numero}\n"
+            f"Factura {self.codigo}\n"
             f"Subtotal: {self.subtotal:.2f}\n"
             f"Impuesto: {self.impuesto:.2f}\n"
             f"Total: {self.total:.2f}"
         )
+
+    def mostrar_factura(self) -> None:
+        """Muestra en consola el detalle de la factura."""
+        print(self.mostrar_detalle())
 
     @staticmethod
     def _decimal_no_negativo(valor, campo: str) -> Decimal:
