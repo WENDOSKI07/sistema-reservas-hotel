@@ -79,7 +79,7 @@ como historial dentro de la sesión.
 | `controllers/` | Navegación y coordinación de las operaciones |
 | `views/` | Interacción por consola |
 | `tests/` | Pruebas unitarias y de integración |
-| `docs/` | UML y su fuente editable |
+| `docs/` | UML y Documento de Decisiones de Diseño con sus fuentes editables |
 
 ## Programación orientada a objetos
 
@@ -115,16 +115,15 @@ recorrido completo de registro, reserva, facturación, cancelación y nueva rese
 
 - [Diagrama UML en PDF](docs/UML%20de%20clases.pdf)
 - [Fuente editable del UML en Mermaid](docs/uml_clases.mmd)
-
-El Documento de Decisiones de Diseño está en revisión local, pendiente de
-incorporarse al repositorio.
+- [Documento de Decisiones de Diseño en PDF](docs/Documento%20de%20Decisiones%20de%20Dise%C3%B1o.pdf)
+- [Fuente editable del documento](docs/decisiones_diseno.md)
 
 ## Uso de inteligencia artificial
 
 Se utilizó ChatGPT de OpenAI para explicar conceptos, generar código y pruebas,
 revisar la integración y preparar documentación. Silvana declaró el uso de Claude
 de Anthropic para comprender el UML y revisar su sección. El Documento de
-Decisiones en revisión describe ese apoyo, los cambios y la verificación realizada.
+Decisiones describe ese apoyo, los cambios y la verificación realizada.
 
 ## Trabajo en equipo
 
