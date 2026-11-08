@@ -1,0 +1,125 @@
+classDiagram
+direction TB
+class Hotel {
+  -str nombre
+  -list habitaciones
+  -list clientes
+  -list reservas
+  +registrar_habitacion(habitacion)
+  +registrar_cliente(cliente)
+  +buscar_habitacion(numero) Habitacion
+  +buscar_cliente(documento) Cliente
+  +crear_reserva(codigo, cliente, habitacion, f_entrada, f_salida, huespedes) Reserva
+}
+class Habitacion {
+  <<abstract>>
+  -str numero
+  -str piso
+  -float precio_base
+  -int capacidad
+  -str estado
+  +ocupar()
+  +liberar()
+  +calcular_tarifa(noches)* float
+  +describir_servicios()* str
+  +mostrar_informacion() str
+}
+class HabitacionSencilla {
+  -str tipo_cama
+  +calcular_tarifa(noches) float
+  +describir_servicios() str
+  +mostrar_informacion() str
+}
+class HabitacionSuite {
+  +int RECARGO_JACUZZI$
+  +int RECARGO_VISTA$
+  -bool tiene_jacuzzi
+  -str vista
+  +calcular_tarifa(noches) float
+  +describir_servicios() str
+  +mostrar_informacion() str
+}
+class HabitacionFamiliar {
+  +int VALOR_CAMA_EXTRA$
+  -int camas_extra
+  +calcular_tarifa(noches) float
+  +describir_servicios() str
+  +mostrar_informacion() str
+}
+class Cliente {
+  -str documento
+  -str nombre
+  -str correo
+  +mostrar_informacion() str
+}
+class Estadia {
+  -date fecha_entrada
+  -date fecha_salida
+  +calcular_noches() int
+}
+class Reserva {
+  -str codigo
+  -Cliente cliente
+  -Habitacion habitacion
+  -Estadia estadia
+  -int cantidad_huespedes
+  -str estado
+  +confirmar()
+  +cancelar()
+  +calcular_total() float
+  +mostrar_informacion() str
+}
+class Factura {
+  +Decimal TASA_IMPUESTO$
+  -str codigo
+  -Reserva reserva
+  -Decimal subtotal
+  -Decimal impuesto
+  -Decimal total
+  +calcular_totales()
+  +mostrar_detalle() str
+  +mostrar_factura()
+}
+Habitacion <|-- HabitacionSencilla
+Habitacion <|-- HabitacionSuite
+Habitacion <|-- HabitacionFamiliar
+Hotel "1" o-- "0..*" Habitacion : registra
+Hotel "1" o-- "0..*" Cliente : registra
+Hotel "1" o-- "0..*" Reserva : administra
+Reserva "0..*" --> "1" Cliente : asocia
+Reserva "0..*" --> "1" Habitacion : utiliza
+Reserva "1" *-- "1" Estadia : crea
+Factura "0..1" --> "1" Reserva : corresponde a
+class HotelError {
+  <<exception>>
+}
+class FechasInvalidasError
+class CapacidadExcedidaError
+class HabitacionNoDisponibleError
+class HabitacionNoEncontradaError
+class ClienteNoEncontradoError
+Exception <|-- HotelError
+HotelError <|-- FechasInvalidasError
+HotelError <|-- CapacidadExcedidaError
+HotelError <|-- HabitacionNoDisponibleError
+HotelError <|-- HabitacionNoEncontradaError
+HotelError <|-- ClienteNoEncontradoError
+class MenuController
+class ClienteController
+class HabitacionController
+class ReservaController
+class MenuView
+class ClienteView
+class HabitacionView
+class ReservaView
+MenuController --> MenuView
+MenuController --> ClienteController
+MenuController --> HabitacionController
+MenuController --> ReservaController
+ClienteController --> ClienteView
+ClienteController --> Hotel
+HabitacionController --> HabitacionView
+HabitacionController --> Hotel
+ReservaController --> ReservaView
+ReservaController --> Hotel
+ReservaController --> Factura
