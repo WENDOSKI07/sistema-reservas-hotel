@@ -1,0 +1,40 @@
+"""Pruebas del programa por consola desde main.py."""
+
+import os
+from pathlib import Path
+import subprocess
+import sys
+import unittest
+
+
+class TestMenu(unittest.TestCase):
+    def ejecutar_programa(self, entradas):
+        """Abre el programa con respuestas simuladas del usuario."""
+        resultado = subprocess.run(
+            [sys.executable, "main.py"],
+            cwd=Path(__file__).resolve().parents[1],
+            input=entradas,
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            env=os.environ | {"PYTHONIOENCODING": "utf-8"},
+            timeout=10,
+        )
+        self.assertEqual(resultado.returncode, 0, resultado.stderr)
+        return resultado.stdout
+
+    def test_cotiza_los_tres_tipos_y_permite_salir(self):
+        salida = self.ejecutar_programa("1\n2\n0\n")
+
+        # Los importes incluyen los recargos propios de cada tipo de habitación
+        for importe in ("200,000.00", "560,000.00", "340,000.00"):
+            self.assertIn(importe, salida)
+        self.assertIn("Hasta pronto", salida)
+
+    def test_rechaza_opciones_y_noches_invalidas_y_continua(self):
+        salida = self.ejecutar_programa("9\n1\ntexto\n0\n-1\n2\n0\n")
+
+        self.assertIn("Opción inválida", salida)
+        self.assertEqual(salida.count("Escribe un número entero"), 3)
+        self.assertIn("200,000.00", salida)
+        self.assertIn("Hasta pronto", salida)
