@@ -96,7 +96,7 @@ class Reserva:
         return (
             f"Código de reserva: {self.codigo}\n"
             f"Cliente: {self.cliente.nombre}\n"
-            f"Habitación: {self.habitacion.numero}\n"
+            f"Habitación: {self.habitacion.numero} - Tipo: {self.habitacion.__class__.__name__}\n"
             f"Entrada: {self.estadia.fecha_entrada} | Salida: {self.estadia.fecha_salida}\n"
             f"Huéspedes: {self.cantidad_huespedes} | Estado: {self.estado}\n"
             f"Noches: {self.estadia.calcular_noches()}\n"
