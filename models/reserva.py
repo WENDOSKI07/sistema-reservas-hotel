@@ -1,5 +1,5 @@
-from habitacion import Habitacion
-from estadia import Estadia
+from models.habitacion import Habitacion
+from models.estadia import Estadia
 
 
 class Reserva:
@@ -49,6 +49,9 @@ class Reserva:
     def get_cantidad_huespedes (self):
         return self.cantidad_huespedes
 
+    def get_estado(self):
+        return self.estado
+
     def confirmar(self):
         if self.estado == "pendiente":
             self.estado = "confirmada"
@@ -66,11 +69,13 @@ class Reserva:
        return self.habitacion.calcular_tarifa(noches)
 
     def mostrar_informacion(self):
-        return (f"Código de reserva: {self.codigo}\n"
-                f"Cliente: {self.cliente.nombre} {self.cliente.apellido}\n"
-                f"Habitación: {self.habitacion.mostrar_informacion()}\n"
-                f"Huéspedes: {self.cantidad_huespedes}\n"
-                f"Estado: {self.estado}\n"
-                f"Estadía: {self.estadia.fecha_entrada} a {self.estadia.fecha_salida}\n"
-                f"Noches: {self.estadia.calcular_noches()}\n"
-                f"Total a Pagar: ${self.calcular_total():.2f}")
+        info = f"Código de reserva: {self.codigo}\n"
+        info += f"Cliente: {self.cliente.nombre} {self.cliente.apellido}\n"
+        info += f"Habitación: {self.habitacion.numero} - Tipo: {self.habitacion.tipo}\n"
+        info += f"Fecha de Entrada: {self.estadia.fecha_entrada}\n"
+        info += f"Fecha de Salida: {self.estadia.fecha_salida}\n"
+        info += f"Estadia: {self.estadia.calcular_noches()}\n"
+        info += f"Huéspedes: {self.cantidad_huespedes}\n"
+        info += f"Estado de la Reserva: {self.estado}\n"
+        info += f"Total a Pagar: ${self.calcular_total():.2f}\n"
+        return info
