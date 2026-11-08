@@ -8,10 +8,49 @@ import unittest
 
 
 class TestMenu(unittest.TestCase):
+    def test_datos_iniciales_incluyen_ocho_objetos_del_dominio(self):
+        from main import crear_hotel
+        hotel = crear_hotel()
+        self.assertEqual(1 + len(hotel.habitaciones) + len(hotel.clientes), 8)
+        self.assertEqual(hotel.reservas, [])
+
+    def test_registrar_reservar_facturar_cancelar_y_reservar_de_nuevo(self):
+        salida = self.ejecutar_programa(
+            "3\n1\n321\nAna Nueva\nana@example.com\n0\n"
+            "5\n1\nR001\n321\n101\n2026-11-10\n2026-11-12\n2\n"
+            "3\nR001\n3\nR001\n4\nR001\n"
+            "1\nR002\n321\n101\n2026-11-10\n2026-11-12\n2\n"
+            "2\n0\n0\n"
+        )
+        self.assertIn("Cliente registrado correctamente", salida)
+        self.assertEqual(salida.count("Reserva confirmada correctamente"), 2)
+        self.assertEqual(salida.count("Factura F-R001"), 2)
+        self.assertIn("Total: 238000.00", salida)
+        self.assertIn("Reserva cancelada", salida)
+        self.assertIn("Estado: cancelada", salida)
+        self.assertIn("Estado: confirmada", salida)
+        self.assertIn("Hasta pronto", salida)
+
+    def test_errores_de_reserva_permiten_continuar(self):
+        salida = self.ejecutar_programa(
+            "5\n1\nR001\n999\n101\n2026-11-10\n2026-11-12\n2\n"
+            "1\nR001\n123\n999\n2026-11-10\n2026-11-12\n2\n"
+            "1\nR001\n123\n101\n2026-11-12\n2026-11-10\n2\n"
+            "1\nR001\n123\n101\n2026-11-10\n2026-11-12\n3\n"
+            "1\nR001\n123\n101\n2026-11-10\n2026-11-12\n2\n"
+            "1\nR002\n123\n101\n2026-11-10\n2026-11-12\n2\n"
+            "4\nR001\n3\nR001\n0\n0\n"
+        )
+        for mensaje in (
+            "No se encontró un cliente", "No se encontró una habitación",
+            "debe ser posterior", "supera la capacidad", "no está disponible",
+            "Solo se puede facturar una reserva confirmada", "Hasta pronto",
+        ):
+            self.assertIn(mensaje, salida)
     def test_registra_cliente_y_lo_encuentra_despues_de_un_error(self):
         salida = self.ejecutar_programa(
-            "3\n2\n999\n1\n123\nAna Torres\nana@example.com\n"
-            "2\n123\n0\n0\n"
+            "3\n2\n999\n1\n321\nAna Torres\nana@example.com\n"
+            "2\n321\n0\n0\n"
         )
         self.assertIn("No se encontró un cliente", salida)
         self.assertIn("Cliente registrado correctamente", salida)

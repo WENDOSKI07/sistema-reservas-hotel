@@ -8,6 +8,7 @@ class MenuView:
         print("2. Comprobaciones de la actividad")
         print("3. Clientes")
         print("4. Consultar habitaciones")
+        print("5. Reservas y facturas")
         print("0. Salir")
         return input("Selecciona una opción: ").strip()
 

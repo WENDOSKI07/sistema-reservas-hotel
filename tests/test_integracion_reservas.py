@@ -2,7 +2,6 @@
 
 from datetime import date
 from decimal import Decimal
-from importlib.util import find_spec
 import unittest
 
 from exceptions.hoteleras import (
@@ -14,17 +13,6 @@ from models.factura import Factura
 from models.habitacion_sencilla import HabitacionSencilla
 
 
-# Estas pruebas necesitan las clases reales que están desarrollando las compañeras
-MODELOS_DISPONIBLES = all(
-    find_spec(nombre) is not None
-    for nombre in ("models.cliente", "models.hotel", "models.reserva")
-)
-
-
-@unittest.skipUnless(
-    MODELOS_DISPONIBLES,
-    "Pendiente integrar Cliente, Hotel y Reserva",
-)
 class TestIntegracionReservas(unittest.TestCase):
     def setUp(self):
         from models.cliente import Cliente

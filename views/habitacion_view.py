@@ -21,9 +21,12 @@ class HabitacionView:
         """Pide las noches y repite la pregunta hasta recibir un entero mayor que cero."""
         while True:
             texto = input("Número de noches: ").strip()
-            # isdigit revisa que el texto tenga solo números, así int() no falla
-            if texto.isdigit() and int(texto) > 0:
-                return int(texto)
+            try:
+                noches = int(texto)
+                if noches > 0:
+                    return noches
+            except ValueError:
+                pass
             print("Escribe un número entero de noches mayor que cero")
 
     def mostrar_habitaciones(self, habitaciones):

@@ -14,6 +14,9 @@ from controllers.cliente_controller import ClienteController
 from controllers.habitacion_controller import HabitacionController
 from views.cliente_view import ClienteView
 from views.habitacion_view import HabitacionView
+from models.cliente import Cliente
+from controllers.reserva_controller import ReservaController
+from views.reserva_view import ReservaView
 
 
 def mostrar_habitaciones(habitaciones, noches: int) -> None:
@@ -55,22 +58,38 @@ def validar_estadia(entrada, salida):
     return f"La estadía tiene {estadia.calcular_noches()} noches"
 
 
-def main():
+def crear_hotel():
+    """Prepara ocho objetos del dominio para explorar el sistema."""
     # Estas habitaciones de ejemplo permiten probar la cotización desde el menú
     habitaciones = [
         HabitacionSencilla("101", "1", 100000, 2, "doble"),
         HabitacionSuite("201", "2", 200000, 2, True, "la ciudad"),
         HabitacionFamiliar("301", "3", 150000, 4, 1),
+        HabitacionSencilla("102", "1", 90000, 1, "individual"),
     ]
     hotel = Hotel("Hotel Manizales")
     for habitacion in habitaciones:
         hotel.registrar_habitacion(habitacion)
 
+    # El hotel reúne cuatro habitaciones y tres clientes, son ocho objetos del dominio
+    for cliente in (
+        Cliente("123", "Ana Torres", "ana@example.com"),
+        Cliente("456", "Luis Gómez", "luis@example.com"),
+        Cliente("789", "María Rojas", "maria@example.com"),
+    ):
+        hotel.registrar_cliente(cliente)
+    return hotel
+
+
+def main():
+    hotel = crear_hotel()
     clientes = ClienteController(hotel, ClienteView())
     consulta_habitaciones = HabitacionController(hotel, HabitacionView())
+    reservas = ReservaController(hotel, ReservaView())
     menu = MenuController(
-        MenuView(), habitaciones, mostrar_habitaciones,
+        MenuView(), hotel.habitaciones, mostrar_habitaciones,
         comprobar_clase_abstracta, validar_estadia, clientes, consulta_habitaciones,
+        reservas,
     )
     menu.iniciar()
 
